@@ -56,3 +56,8 @@ export async function getWeather(query: string) {
     return null;
   }
 }
+
+export async function checkLocationExists(query: string) {
+  const data = await getWeather(query);
+  return !!(data && data.location.name && data.current.temp_c);
+}

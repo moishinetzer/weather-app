@@ -4,10 +4,10 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/node";
-import { Avatar, Divider, Typography } from "@mui/material";
+import { Avatar, Card, Divider, Link, Typography } from "@mui/material";
 import { WbSunny } from "@mui/icons-material";
 import { requireLoggedIn } from "~/utils/auth.server";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData, Link as RemixLink } from "@remix-run/react";
 import { WeatherCard } from "~/components/weather-card";
 import { Spacer } from "~/components/spacer";
 import { ValidatedForm, validationError } from "remix-validated-form";
@@ -17,7 +17,12 @@ import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { useRef } from "react";
 import { db } from "~/utils/db.server";
-import { ApiWeatherResponse, getWeather } from "~/utils/weather.server";
+import {
+  ApiWeatherResponse,
+  checkLocationExists,
+  getWeather,
+} from "~/utils/weather.server";
+import { route } from "~/utils/route";
 
 // https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [
@@ -72,6 +77,14 @@ export async function action({ request }: ActionFunctionArgs) {
       },
     });
 
+  let exists = await checkLocationExists(city);
+  if (!exists)
+    return validationError({
+      fieldErrors: {
+        city: "Could not find city",
+      },
+    });
+
   await db.weatherLocation.create({
     data: {
       name: city,
@@ -91,7 +104,7 @@ export default function Index() {
   let { username, weatherData } = useLoaderData<typeof loader>();
   let inputRef = useRef<HTMLInputElement>(null);
 
-  let fetcher = useFetcher<typeof action>();
+  let fetcher = useFetcher();
 
   return (
     <main className="p-10 w-full h-full">
@@ -107,6 +120,12 @@ export default function Index() {
       <Typography className="text-center">
         Welcome to the weather app, {username}
       </Typography>
+
+      <p className="text-center w-full">
+        <Link to={route("/logout")} component={RemixLink}>
+          logout
+        </Link>
+      </p>
 
       <Spacer />
       <Divider />
@@ -133,19 +152,31 @@ export default function Index() {
       <Spacer />
 
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {weatherData.map((weather) => (
-          <WeatherCard
-            id={weather.id}
-            key={weather.id}
-            city={weather.location.country + ", " + weather.location.name}
-            description={weather.current.condition.text}
-            headerImageSrc={weather.current.condition.icon}
-            humidity={weather.current.humidity.toString()}
-            precipitation={weather.current.precip_mm.toString()}
-            temperature={weather.current.temp_c.toString()}
-            favourite={true}
-          />
-        ))}
+        {weatherData.length > 0 ? (
+          weatherData.map((weather) => (
+            <WeatherCard
+              id={weather.id}
+              key={weather.id}
+              city={weather.location.country + ", " + weather.location.name}
+              description={weather.current.condition.text}
+              headerImageSrc={weather.current.condition.icon}
+              humidity={weather.current.humidity.toString()}
+              precipitation={weather.current.precip_mm.toString()}
+              temperature={weather.current.temp_c.toString()}
+              favourite={true}
+            />
+          ))
+        ) : (
+          <Card
+            variant="elevation"
+            elevation={10}
+            className="p-10 col-span-full"
+          >
+            <Typography className="text-center">
+              Add a city to your favourites to see the weather
+            </Typography>
+          </Card>
+        )}
       </div>
     </main>
   );
