@@ -14,7 +14,7 @@ import { unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/material";
 import theme from "./utils/theme";
 import ClientStyleContext from "./utils/ClientStyleContext";
 import styles from "./tailwind.css";
-import { LinksFunction } from "@remix-run/server-runtime";
+import { LinksFunction } from "@remix-run/node";
 
 interface DocumentProps {
   children: React.ReactNode;

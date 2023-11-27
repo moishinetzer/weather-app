@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { logout } from "~/utils/auth.server";
 import { route } from "~/utils/route";
 

@@ -20,6 +20,7 @@ import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
 import { route } from "~/utils/route";
 import { handleNewSession, requireAnonymous } from "~/utils/auth.server";
+import { Spacer } from "~/components/spacer";
 
 // https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [
@@ -78,7 +79,7 @@ export default function Login() {
     <main className="grid grid-cols-2 h-screen">
       <div>
         <img
-          src="https://picsum.photos/1100/1100"
+          src="https://picsum.photos/1100/1000"
           alt="side image"
           className="w-full h-full object-cover bg-blue-100"
         />
@@ -97,7 +98,8 @@ export default function Login() {
             <Typography>Sunny Days Inc.</Typography>
           </div>
 
-          <div className="mt-4" />
+          <Spacer />
+
           <TextField
             name="username"
             type="text"
