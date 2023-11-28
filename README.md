@@ -1,40 +1,25 @@
-# Material UI - Remix example in TypeScript
+# Weather App
 
 ## How to use
 
-Download the example [or clone the repo](https://github.com/mui/material-ui):
+Copy over `.env.example` to `.env` and fill out the api key details.
 
-<!-- #default-branch-switch -->
+Install dependencies `npm install`  (or even better `bun install` 😉)
 
-```bash
-curl https://codeload.github.com/mui/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/material-ui-remix-ts
-cd material-ui-remix-ts
-```
+From there `npm run dev` to start eh application.
 
-Install it and run:
+## Whats inside
 
-```bash
-npm install
-npm run dev
-```
+- Remix.run (of course)
+- Tyepscript (absolute must)
+- Material Design
+- Material Icons
+- TailwindCSS (I'm not familiar enough with Materials' own styling solution as of yet, however I used their components where I felt necessary)
+- Prisma for a DB to store the favourites
+- Session storage for auth
+- Weather API to get the weather details.
+- remix-validated-form for typesafe form submission and parsing
+- zod for parsing the api requests
+- @epic-web/remember for it's easy to implement singleton pattern
 
-or:
-
-<!-- #default-branch-switch -->
-
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui/material-ui/tree/master/examples/material-ui-remix-ts)
-
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui/material-ui/tree/master/examples/material-ui-remix-ts)
-
-## The idea behind the example
-
-The project uses [Remix](https://remix.run/), which is a full stack web framework.
-It includes `@mui/material` and its peer dependencies, including [Emotion](https://emotion.sh/docs/introduction), the default style engine in Material UI v5.
-If you prefer, you can [use styled-components instead](https://mui.com/material-ui/guides/interoperability/#styled-components).
-
-## What's next?
-
-<!-- #default-branch-switch -->
-
-You now have a working example project.
-You can head back to the documentation and continue by browsing the [templates](https://mui.com/material-ui/getting-started/templates/) section.
+I would love to talk about a bunch of ideas for optimizations I had, that I didn't have time to implement but given more time there are lots of interesting approaches that could be taken to do so,
