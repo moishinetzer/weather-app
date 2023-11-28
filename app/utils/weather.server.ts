@@ -55,6 +55,10 @@ export async function getWeather(query: string) {
     const response = await fetch(apiUrl.toString());
     const data = await response.json();
 
+    // Use the zod schema to parse this so that we can get type safety.
+    // You may notice above I only restrict the types I actually use to be required.
+    // That way if for some reason the API changes, I don't have to update my schema.
+    // However I would want the parsing to fail if the API changes in a way that I don't expect.
     let result = ApiWeatherResponseSchema.parse(data);
 
     return result;

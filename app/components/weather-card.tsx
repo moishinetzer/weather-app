@@ -4,17 +4,7 @@ import { useFetcher } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
-
-type WeatherCardProps = {
-  id: number;
-  city: string;
-  description: string;
-  headerImageSrc: string;
-  temperature: string;
-  humidity: string;
-  precipitation: string;
-  favourite: boolean;
-};
+import { SubmitButton } from "~/components/submit-button";
 
 export const removeFavouriteValidator = withZod(
   z.object({
@@ -22,11 +12,23 @@ export const removeFavouriteValidator = withZod(
   })
 );
 
+type WeatherCardProps = {
+  id: number;
+  city: string;
+  description: string;
+  headerImageSrc: string;
+  weatherIconSrc: string;
+  temperature: string;
+  humidity: string;
+  precipitation: string;
+  favourite: boolean;
+};
 export function WeatherCard({
   id,
   city,
   description,
   headerImageSrc,
+  weatherIconSrc,
   temperature,
   humidity,
   precipitation,
@@ -37,13 +39,21 @@ export function WeatherCard({
       <div className="absolute bottom-2 right-2">
         <ValidatedForm
           validator={removeFavouriteValidator}
+          // This uses a fetcher to make sure a navigation is not triggered.
+          // In the new Remix API, I would use `navigate={false}` instead.
           fetcher={fetcher}
           action="/remove-favourite"
           method="post"
         >
-          <Fab type="submit" size="small" variant="circular" color="secondary">
+          <SubmitButton
+            className="!rounded-full !w-5"
+            fullWidth={false}
+            type="submit"
+            size="small"
+            color="secondary"
+          >
             <CloseOutlined />
-          </Fab>
+          </SubmitButton>
           <input type="hidden" name="id" value={id} />
         </ValidatedForm>
       </div>
@@ -58,7 +68,10 @@ export function WeatherCard({
                 />
                 {city}
               </p>
-              <p>{temperature}˚C</p>
+              <p className="flex flex-col justify-center items-center">
+                <span>{temperature}˚C </span>
+                <img src={weatherIconSrc} className="h-10 w-10 object-cover" />
+              </p>
             </div>
             <div className="flex items-center justify-start gap-4 opacity-70">
               <p className="text-sm">

@@ -78,8 +78,6 @@ const Document = withEmotionCache(
   }
 );
 
-// https://remix.run/docs/en/main/route/component
-// https://remix.run/docs/en/main/file-conventions/routes
 export default function App() {
   return (
     <Document>
@@ -88,7 +86,6 @@ export default function App() {
   );
 }
 
-// https://remix.run/docs/en/main/route/error-boundary
 export function ErrorBoundary() {
   const error = useRouteError();
 

@@ -22,7 +22,6 @@ import { route } from "~/utils/route";
 import { handleNewSession, requireAnonymous } from "~/utils/auth.server";
 import { Spacer } from "~/components/spacer";
 
-// https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [
   { title: "Login" },
   { name: "description", content: "Welcome to the next-gen weather app" },
@@ -35,6 +34,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
+  // Add artificial delay to simulate network latency
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   let formData = await request.formData();
@@ -44,6 +44,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   let { username, password, remember } = result.data;
 
+  // Manually check username and password
   if (username !== "ipgautomotive" || password !== "carmaker")
     return validationError({
       fieldErrors: {
@@ -51,8 +52,6 @@ export async function action({ request }: ActionFunctionArgs) {
         password: "Wrong username or password",
       },
     });
-
-  console.log({ username, password, remember });
 
   return await handleNewSession({
     request,
@@ -73,13 +72,12 @@ const logInValidator = withZod(
   })
 );
 
-// https://remix.run/docs/en/main/file-conventions/routes#basic-routes
 export default function Login() {
   return (
     <main className="grid grid-cols-2 h-screen">
       <div>
         <img
-          src="https://picsum.photos/1100/1000"
+          src="https://cdn.neowin.com/news/images/uploaded/2023/05/1685529688_windows-xp-wallpaper-generative-ai.jpg"
           alt="side image"
           className="w-full h-full object-cover bg-blue-100"
         />

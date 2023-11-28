@@ -1,8 +1,9 @@
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunctionArgs } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { removeFavouriteValidator } from "~/components/weather-card";
 import { db } from "~/utils/db.server";
 
+// It makes sense to have this in a resource route.
 export async function action({ request }: ActionFunctionArgs) {
   let formData = await request.formData();
   let result = await removeFavouriteValidator.validate(formData);

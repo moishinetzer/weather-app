@@ -45,6 +45,7 @@ export async function handleNewSession({
   let cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie")
   );
+
   // Here set the userId when that is implemented in the backend
   // That way you can confirm that the user is logged in.
   cookieSession.set("username", username);

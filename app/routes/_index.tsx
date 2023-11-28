@@ -25,10 +25,9 @@ import {
 import { route } from "~/utils/route";
 import { getFlagUrl } from "~/utils/flag";
 
-// https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [
-  { title: "Remix Starter" },
-  { name: "description", content: "Welcome to remix!" },
+  { title: "Weather App" },
+  { name: "description", content: "Welcome to the weather app!" },
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -36,26 +35,30 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   let favourites = await db.weatherLocation.findMany();
 
-  // TODO: Introduce caching
+  // Fetch weather data for all favourites in parallel
   let weatherData = await Promise.all(
     favourites.map(async (favourite) => {
       let result = await getWeather(favourite.name);
+
+      if (result === null) return null;
+
       return {
         ...result,
         id: favourite.id,
       };
     })
   );
+
+  // Make sure to filter out null values
   let filteredWeatherData = weatherData.filter(
-    // TODO: Better error handling, maybe show card with error message
-    (weather) => weather !== null
-  );
+    Boolean
+  ) as (ApiWeatherResponse & {
+    id: number;
+  })[];
 
   return json({
     username,
-    weatherData: filteredWeatherData as (ApiWeatherResponse & {
-      id: number;
-    })[],
+    weatherData: filteredWeatherData,
   });
 }
 
@@ -135,8 +138,12 @@ export default function Index() {
       <ValidatedForm
         method="post"
         validator={favouriteValidator}
+        // No need to cause navigation here
         fetcher={fetcher}
         onSubmit={async () => {
+          // Reset the input field
+          // Since we aren't preventing the default behaviour,
+          // the form will still be submitted
           inputRef.current!.value = "";
         }}
         className="flex gap-4 justify-start items-start"
@@ -164,7 +171,7 @@ export default function Index() {
                 getFlagUrl(weather.location.country) ??
                 "https://media.wired.co.uk/photos/606dba1c9a15f73a597a2aa1/master/w_16,c_limit/weather.jpg"
               }
-              // weatherIconSrc={weather.current.condition.icon}
+              weatherIconSrc={weather.current.condition.icon}
               humidity={weather.current.humidity.toString()}
               precipitation={weather.current.precip_mm.toString()}
               temperature={weather.current.temp_c.toString()}
@@ -172,6 +179,7 @@ export default function Index() {
             />
           ))
         ) : (
+          // Empty state
           <Card
             variant="elevation"
             elevation={10}
