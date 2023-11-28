@@ -11,9 +11,9 @@ From there `npm run dev` to start the application.
 ## Screenshots
 
 <div style="display:flex;">
-  <img width="500" alt="image" src="https://github.com/moishinetzer/weather-app/assets/11411486/d8a69f73-3889-4aaa-b6e0-d00a73dc6d4e">
-  <img width="500" alt="image" src="https://github.com/moishinetzer/weather-app/assets/11411486/cba7c8b9-f057-4d50-8bdd-5ab719542983">
-  <img width="500" alt="image" src="https://github.com/moishinetzer/weather-app/assets/11411486/ce4a2d5e-3ddd-4d81-ac4a-a763b0664350">
+  <img width="40%" alt="image" src="https://github.com/moishinetzer/weather-app/assets/11411486/d8a69f73-3889-4aaa-b6e0-d00a73dc6d4e">
+  <img width="40%" alt="image" src="https://github.com/moishinetzer/weather-app/assets/11411486/cba7c8b9-f057-4d50-8bdd-5ab719542983">
+  <img width="40%" alt="image" src="https://github.com/moishinetzer/weather-app/assets/11411486/ce4a2d5e-3ddd-4d81-ac4a-a763b0664350">
 </div>
 
 ## Whats inside
