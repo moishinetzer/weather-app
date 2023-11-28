@@ -23,6 +23,7 @@ import {
   getWeather,
 } from "~/utils/weather.server";
 import { route } from "~/utils/route";
+import { getFlagUrl } from "~/utils/flag";
 
 // https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [
@@ -159,7 +160,11 @@ export default function Index() {
               key={weather.id}
               city={weather.location.country + ", " + weather.location.name}
               description={weather.current.condition.text}
-              headerImageSrc={weather.current.condition.icon}
+              headerImageSrc={
+                getFlagUrl(weather.location.country) ??
+                "https://media.wired.co.uk/photos/606dba1c9a15f73a597a2aa1/master/w_16,c_limit/weather.jpg"
+              }
+              // weatherIconSrc={weather.current.condition.icon}
               humidity={weather.current.humidity.toString()}
               precipitation={weather.current.precip_mm.toString()}
               temperature={weather.current.temp_c.toString()}

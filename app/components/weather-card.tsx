@@ -1,5 +1,5 @@
 import { Air, Water, CloseOutlined } from "@mui/icons-material";
-import { Card, CardHeader, CardContent, Fab } from "@mui/material";
+import { Card, CardHeader, CardContent, Fab, CardMedia } from "@mui/material";
 import { useFetcher } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
@@ -48,14 +48,14 @@ export function WeatherCard({
         </ValidatedForm>
       </div>
       <CardHeader
-        style={{
-          backgroundImage: headerImageSrc,
-          backgroundColor: "rgb(129, 236, 145)",
-        }}
         title={
           <div className="flex flex-col gap-2">
             <div className="flex justify-between items-start">
               <p className="font-medium flex justify-start items-center gap-2">
+                <img
+                  src={headerImageSrc}
+                  className="h-6 w-6 object-cover rounded-full"
+                />
                 {city}
               </p>
               <p>{temperature}˚C</p>

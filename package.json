@@ -5,7 +5,7 @@
   "scripts": {
     "build": "remix-routes && remix build",
     "build:routes": "remix-routes",
-    "dev": "remix dev --manual",
+    "dev": "remix-routes && remix dev --manual",
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc"
   },
